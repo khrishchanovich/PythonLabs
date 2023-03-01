@@ -1,0 +1,1 @@
+ALLOWED_OPERATIONS = ['add', 'sub', 'mult', 'div']
