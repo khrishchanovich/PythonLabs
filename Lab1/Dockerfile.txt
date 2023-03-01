@@ -1,0 +1,7 @@
+FROM python:3.10
+
+WORKDIR /usr/src/Lab1
+
+COPY ./Lab1 .
+
+CMD ["python3", "main.py"]
