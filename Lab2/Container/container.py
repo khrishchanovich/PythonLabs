@@ -26,5 +26,5 @@ class Container:
     def load(self):
         pass
 
-    def switch(self):
-        pass
+    def switch(self, user):
+        self._user = user
