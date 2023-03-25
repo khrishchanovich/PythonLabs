@@ -58,7 +58,7 @@ def average_length_of_the_world(str_):
     return average_length_words
 
 
-def el(x):
+def max_val(x):
     return x[1]
 
 
@@ -74,5 +74,5 @@ def top_k_repeated_n_grams(str_, k=10, n=4):
         else:
             dict_[n_grams] += 1
 
-    sorted_ = sorted(dict_.items(), key=el, reverse=True)
+    sorted_ = sorted(dict_.items(), key=max_val, reverse=True)
     return sorted_[0:k]
