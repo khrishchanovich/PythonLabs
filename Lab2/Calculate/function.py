@@ -5,6 +5,7 @@ from constants import (SEPARATORS, NON_DECLARATIVE_SEPARATORS,
 
 
 def amount_of_sentences(str_):
+    str_ = str_.lower()
     amount = len(re.findall(SEPARATORS, str_))
 
     for i in ABBREVIATION:
@@ -23,11 +24,11 @@ def amount_of_non_declarative_sentences(str_):
 
 
 def average_length_of_the_sentences(str_):
-    numbers = re.findall(NUMBER, str_)
+    numbers_re = re.findall(NUMBER, str_)
     words_re = re.findall(WORD, str_)
     words = []
     for i in words_re:
-        if i not in numbers:
+        if i not in numbers_re:
             words.append(i)
     sentence_len_in_characters = 0
     for i in words:
@@ -40,12 +41,12 @@ def average_length_of_the_sentences(str_):
 
 
 def average_length_of_the_world(str_):
-    numbers = re.findall(NUMBER, str_)
+    numbers_re = re.findall(NUMBER, str_)
     words_re = re.findall(WORD, str_)
     words = []
 
     for i in words_re:
-        if i not in numbers:
+        if i not in numbers_re:
             words.append(i)
     sentence_len_in_characters = 0
 
@@ -57,3 +58,21 @@ def average_length_of_the_world(str_):
     return average_length_words
 
 
+def el(x):
+    return x[1]
+
+
+def top_k_repeated_n_grams(str_, k=10, n=4):
+    str_ = str_.lower()
+    words_re = re.findall(WORD, str_)
+    dict_ = {}
+
+    for i in range(len(words_re) - n + 1):
+        n_grams = ' '.join([str(j) for j in words_re[i:i + n]])
+        if n_grams not in dict_:
+            dict_[n_grams] = 1
+        else:
+            dict_[n_grams] += 1
+
+    sorted_ = sorted(dict_.items(), key=el, reverse=True)
+    return sorted_[0:k]
