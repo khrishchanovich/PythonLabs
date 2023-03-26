@@ -1,12 +1,17 @@
 from container import Container
+from function import user_input, current_command
 
-user = input('Enter your username: ')
-storage = Container(user)
+print('Container of unique elements'
+      '\n****************************')
+username = input('Enter your username: ')
+storage = Container(username)
 
-command = input('Enter the command: ')
+print(f'****************************\n'
+      f'{username}-container is available now'
+      f'\n!Type "info" for more information!'
+      f'\n****************************')
 
-if command == 'add':
-    storage.add(elem)
-elif command == 'remove':
-    storage.remove(elem)
-elif command == 'find':
+while True:
+    command, elements = user_input()
+    current_command(command, elements, storage)
+

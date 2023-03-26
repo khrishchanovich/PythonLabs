@@ -1,9 +1,16 @@
+import json
+import os
+
+
 class Container:
     _user = str()
     _storage = set()
+    _file = str()
 
     def __init__(self, user):
         self._user = user
+        self._file = f'./users/{user}.json'
+        self.load()
 
     def add(self, elem):
         self._storage.add(elem)
@@ -12,19 +19,26 @@ class Container:
         self._storage.remove(elem)
 
     def find(self, elem):
-        return elem in self._storage
+        if elem in self._storage:
+            return elem
 
     def list(self):
-        return [self._storage]
+        return list(self._storage)
 
     def grep(self):
         pass
 
     def save(self):
-        pass
+        os.makedirs(os.path.dirname(self._file), exist_ok=True)
+        with open(self._file, 'w') as f:
+            json.dump([self._storage], f)
 
     def load(self):
-        pass
+        if os.path.exists(self._file):
+            with open(self._file, 'r') as f:
+                self._storage = set(json.load(f))
 
     def switch(self, user):
         self._user = user
+        self._file = f'./users/{user}.json'
+        self.load()
