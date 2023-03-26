@@ -74,5 +74,4 @@ def top_k_repeated_n_grams(str_, k=10, n=4):
         else:
             dict_[n_grams] += 1
 
-    sorted_ = sorted(dict_.items(), key=max_val, reverse=True)
-    return sorted_[0:k]
+    return sorted(dict_.items(), key=max_val, reverse=True)[0:k]
