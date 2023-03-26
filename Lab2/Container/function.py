@@ -20,16 +20,43 @@ def current_command(command, elements, storage: Container):
     elif command == 'remove':
         storage.remove(elements)
     elif command == 'find':
-        pass
+        element = elements.split()
+        for i in element:
+            el = storage.find(i)
+            if el:
+                print(f'Element "{el}" found')
+            else:
+                print(f'Element "{el}" not found')
     elif command == 'list':
         print(storage.list())
     elif command == 'grep':
-        pass
+        element = storage.grep(elements)
+        if len(element) != 0:
+            print('Found values: ', element)
     elif command == 'save':
-        pass
+        storage.save()
     elif command == 'load':
-        pass
+        storage.load()
     elif command == 'switch':
-        pass
+        storage.save()
+        storage.switch(elements)
+    elif command == 'info':
+        print('INFO:'
+              '\n****************************'
+              '\nadd <key> [key, ...] - add one or more elements to the container'
+              '\nremove <key> - delete key from container'
+              '\nfind - <key> [key, ...] - check if the element is presented in the container'
+              '\nlist - print all elements of container'
+              '\ngrep <regex> - check the value in the container by regular expression'
+              '\nsave - save container to file'
+              '\nswitch - switches to another user'
+              '\n****************************')
+    elif command == 'stop':
+        answer = input('Do you want save container before exit? (y/n) ')
+        if answer == 'y':
+            storage.save()
+        return False
     else:
         print(f'There is no such command: {command}')
+
+    return True

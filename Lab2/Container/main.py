@@ -11,7 +11,7 @@ print(f'****************************\n'
       f'\n!Type "info" for more information!'
       f'\n****************************')
 
-while True:
+current = True
+while current:
     command, elements = user_input()
-    current_command(command, elements, storage)
-
+    current = current_command(command, elements, storage)
