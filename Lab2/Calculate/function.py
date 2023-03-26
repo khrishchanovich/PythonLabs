@@ -30,14 +30,18 @@ def average_length_of_the_sentences(str_):
     for i in words_re:
         if i not in numbers_re:
             words.append(i)
+
     sentence_len_in_characters = 0
     for i in words:
         sentence_len_in_characters += len(i)
 
     amount = amount_of_sentences(str_)
 
-    average_length_sentences = sentence_len_in_characters / amount
-    return average_length_sentences
+    if amount != 0:
+        average_length_sentences = sentence_len_in_characters / amount
+        return round(average_length_sentences, 2)
+    else:
+        return 0
 
 
 def average_length_of_the_world(str_):
@@ -48,14 +52,18 @@ def average_length_of_the_world(str_):
     for i in words_re:
         if i not in numbers_re:
             words.append(i)
+
     sentence_len_in_characters = 0
 
     for i in words:
         sentence_len_in_characters += len(i)
-    words_len = len(words)
-    average_length_words = sentence_len_in_characters / words_len
 
-    return average_length_words
+    words_len = len(words)
+    if words_len != 0:
+        average_length_words = sentence_len_in_characters / words_len
+        return round(average_length_words, 2)
+    else:
+        return 0
 
 
 def max_val(x):

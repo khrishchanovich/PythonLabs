@@ -17,3 +17,4 @@ print('Amount of sentences: ', script1,
       '\nAverage length of the sentences in characters: ', script3,
       '\nAverage length of the world in the text in characters: ', script4,
       '\nTop-K repeated N-grams in the text (K=10, N=4):', script5)
+
