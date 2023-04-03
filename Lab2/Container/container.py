@@ -11,7 +11,7 @@ class Container:
     def __init__(self, user):
         self._user = user
         self._file = f'./users/{user}.json'
-        self.load()
+        # self.load()
 
     def add(self, elem):
         self._storage.add(elem)
@@ -42,4 +42,5 @@ class Container:
     def switch(self, user):
         self._user = user
         self._file = f'./users/{user}.json'
-        self.load()
+        self._storage.clear()
+       # self.load()

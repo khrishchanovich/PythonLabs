@@ -18,7 +18,10 @@ def current_command(command, elements, storage: Container):
         for i in element:
             storage.add(i)
     elif command == 'remove':
-        storage.remove(elements)
+        if elements in storage.list():
+            storage.remove(elements)
+        else:
+            print(f'Element {elements} not found')
     elif command == 'find':
         element = elements.split()
         for i in element:
@@ -38,8 +41,15 @@ def current_command(command, elements, storage: Container):
     elif command == 'load':
         storage.load()
     elif command == 'switch':
-        storage.save()
+        answer = input('Do you want save container before exit? (y/n) ')
+        if answer == 'y':
+            storage.save()
         storage.switch(elements)
+        answer = input('Do you want load container before exit? (y/n) ')
+        if answer == 'y':
+            storage.load()
+    elif command == 'load':
+        storage.load()
     elif command == 'info':
         print('INFO:'
               '\n****************************'
