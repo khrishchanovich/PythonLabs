@@ -1,5 +1,6 @@
 import inspect
 import re
+import pickle
 
 
 class Serializer:
