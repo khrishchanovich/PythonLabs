@@ -2,7 +2,8 @@ from json import serialize, deserialize
 
 
 def dumps(obj) -> str:
-    return serialize(obj).replace('\n', '\\n')
+    obj = serialize(obj)
+    return obj
 
 
 def dump(obj, file):
