@@ -1,47 +1,103 @@
 import inspect
 import re
-import pickle
+from frozendict import frozendict
+from types import CodeType, FunctionType
+from constants import (CODE_ATTRIBUTE, CLASS_ATTRIBUTE, FUNCTION_ATTRIBUTE,
+                        CODE_FIELD, GLOBAL_FIELD, NAME_FIELD, TYPE_FIELD, VALUE_FIELD,
+                       CLASS, OBJECT, DICT, FUNC, CODE,
+                       PRIMITIVE_TYPES, ITERABLE_TYPES)
 
 """Class Serializer"""
 
-
 class Serializer:
 
-    @staticmethod
-    def serializer(obj):
+    """serialize method"""
 
-        data_ = {}
+    def serialize(self, obj):
+
+        res = {}
         type_ = type(obj)
 
-        """
-        list []
-        tuple ()
-        dict {k:v}
-        set {k}
-        """
-
-        if type_ == list:
-            data_['type'] = 'list'
-            data_['value'] = tuple([Serializer.serializer(i) for i in obj])
+        if type_ == dict:
+            res = self.serialize(obj)
+        elif type_ == list:
+            res = self.serialize(obj)
         elif type_ == tuple:
-            data_['type'] = 'tuple'
-            data_['value'] = tuple([Serializer.serializer(i) for i in obj])
+            res = self.serialize(obj)
         elif type_ == set:
-            data_['type'] = 'set'
-            data_['value'] = tuple(Serializer.serializer(i) for i in obj)
-        elif type_ == dict:
-            data_['type'] = 'dict'
-            data_['value'] = {}
-            for i in obj:
-                key = Serializer.serializer(i)
-                value = Serializer.serializer(obj[i])
-                data_['value'][key] = value
-            data_['value'] = tuple((k, data_['value'][k]) for k in data_['value'])
+            res = self.serialize(obj)
+        elif isinstance(obj, (int, float, complex, bool, str, type(None))):
+            res = self.serialize(obj)
+        elif inspect.isfunction(obj):
+            res = self.serialize(obj)
+        elif inspect.ismethod(obj):
+            res = self.serialize(obj)
+        elif inspect.iscode(obj):
+            res = self.serialize(obj)
+        elif hasattr(obj, '__dict__'):
+            res = self.serialize(obj)
 
-        """
-        
-        """
-        return data_
+        return tuple(res)
 
-    def deserializer(self, obj):
+    def serialize_dict(self):
+        pass
+
+    def serialize_type(self):
+        pass
+
+    def serialize_itter(self):
+        pass
+
+    def serialize_func(self):
+        pass
+
+    def serialize_class(self):
+        pass
+
+    def serialize_object(self):
+        pass
+
+    def serialize_other(self):
+        pass
+
+    """deserialize method"""
+
+    def deserialize(self, obj):
+        type_string = obj[TYPE_FIELD]
+        res = object
+
+        if type_string == DICT:
+            res = self.deserialize(obj)
+        elif type_string == PRIMITIVE_TYPES:
+            res = self.deserialize(obj)
+        elif type_string == ITERABLE_TYPES:
+            res = self.deserialize(obj)
+        elif type_string == FUNC:
+            res = self.deserialize(obj)
+        elif type_string == CLASS:
+            res =self.deserialize(obj)
+        elif type_string == OBJECT:
+            res = self.deserialize(obj)
+
+        return res
+
+    def deserialize_dict(self):
+        pass
+
+    def deserialize_type(self):
+        pass
+
+    def deserialize_itter(self):
+        pass
+
+    def deserialize_func(self):
+        pass
+
+    def deserialize_class(self):
+        pass
+
+    def deserialize_object(self):
+        pass
+
+    def deserialize_other(self):
         pass
