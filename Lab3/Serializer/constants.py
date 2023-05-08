@@ -62,3 +62,6 @@ DICT = 'dict'
 FUNC = 'function'
 CODE = 'code'
 
+BASE = 'base'
+DATA = 'data'
+
