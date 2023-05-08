@@ -34,6 +34,20 @@ FUNCTION_ATTRIBUTE = (
     '__closure__'
 )
 
+FUNCTION_CREATE_ATTRIBUTE = (
+    '__doc__',
+    '__name__',
+    '__code__',
+    '__qualname__',
+    '__defaults__',
+    '__kwdefaults__',
+    '__globals__',
+    '__builtins__',
+    '__annotations__',
+    '__module__',
+    '__closure__'
+)
+
 CLASS_ATTRIBUTE = (
     '__doc__',
     '__name__',
@@ -63,7 +77,8 @@ OBJECT = 'object'
 DICT = 'dict'
 FUNC = 'function'
 CODE = 'code'
-
+MODULE = 'module'
 BASE = 'base'
 DATA = 'data'
 
+DOC_ATTRIBUTE = '__doc__'
