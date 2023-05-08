@@ -20,20 +20,28 @@ class Serializer:
 
         if type_ == dict:
             res = self.serialize_dict(obj)
+
         elif type_ == list:
             res = self.serialize(obj)
+
         elif type_ == tuple:
             res = self.serialize(obj)
+
         elif type_ == set:
             res = self.serialize(obj)
+
         elif isinstance(obj, (int, float, complex, bool, str, type(None))):
             res = self.serialize(obj)
+
         elif inspect.isfunction(obj):
             res = self.serialize(obj)
+
         elif inspect.ismethod(obj):
             res = self.serialize(obj)
+
         elif inspect.iscode(obj):
             res = self.serialize(obj)
+
         elif hasattr(obj, '__dict__'):
             res = self.serialize(obj)
 
@@ -55,8 +63,15 @@ class Serializer:
 
         return res
 
-    def serialize_itter(self):
-        pass
+    def serialize_itter(self, obj):
+        res = {VALUE_FIELD: []}
+
+        for value in obj:
+            res[VALUE_FIELD].append(self.serialize(value))
+
+        res[VALUE_FIELD] = tuple(res[VALUE_FIELD])
+
+        return res
 
     def serialize_func(self):
         pass
@@ -78,14 +93,19 @@ class Serializer:
 
         if type_string == DICT:
             res = self.deserialize_dict(obj)
+
         elif type_string == PRIMITIVE_TYPES:
             res = self.deserialize(obj)
+
         elif type_string == ITERABLE_TYPES:
             res = self.deserialize(obj)
+
         elif type_string == FUNC:
             res = self.deserialize(obj)
+
         elif type_string == CLASS:
-            res =self.deserialize(obj)
+            res = self.deserialize(obj)
+
         elif type_string == OBJECT:
             res = self.deserialize(obj)
 
@@ -128,8 +148,26 @@ class Serializer:
 
         return res
 
-    def deserialize_itter(self):
-        pass
+    def deserialize_itter(self, obj):
+        res = []
+
+        for value in obj[VALUE_FIELD]:
+            res_value = self.deserialize(value)
+            res.append(res_value)
+
+        if obj[TYPE_FIELD] == ITERABLE_TYPES[0]:
+            res = list(res)
+
+        elif obj[TYPE_FIELD] == ITERABLE_TYPES[1]:
+            res = tuple(res)
+
+        elif obj[TYPE_FIELD] == ITERABLE_TYPES[2]:
+            res = bytes(res)
+
+        elif obj[TYPE_FIELD] == ITERABLE_TYPES[3]:
+            res = set(res)
+
+        return res
 
     def deserialize_func(self):
         pass
