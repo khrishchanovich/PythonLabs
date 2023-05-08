@@ -2,10 +2,11 @@ import inspect
 import re
 from frozendict import frozendict
 from types import CodeType, FunctionType
-from constants import (CODE_ATTRIBUTE, CLASS_ATTRIBUTE, FUNCTION_ATTRIBUTE,
-                        CODE_FIELD, GLOBAL_FIELD, NAME_FIELD, TYPE_FIELD, VALUE_FIELD,
+from constants import (CODE_ATTRIBUTE, CODE_NAME_ATTRIBUTE, CLASS_ATTRIBUTE, FUNCTION_ATTRIBUTE,
+                       CODE_FIELD, GLOBAL_FIELD, NAME_FIELD, TYPE_FIELD, VALUE_FIELD,
                        CLASS, OBJECT, DICT, FUNC, CODE, BASE, DATA,
-                       PRIMITIVE_TYPES, COLLECTIONS)
+                       PRIMITIVE_TYPES, COLLECTIONS,
+                       OBJECT_TYPE_REGEX)
 
 
 """Class Serializer/Deserializer"""
@@ -16,38 +17,52 @@ class Serializer:
     """serialize method"""
 
     def serialize(self, obj):
-
         res = {}
-        type_ = type(obj)
 
-        if type_ == dict:
-            res = self.serialize_dict(obj)
+        if inspect.isclass(obj):
+            res = self.serialize_class(obj)
+            type_str = CLASS
+        else:
+            type_ = type(obj)
+            type_str = re.search(OBJECT_TYPE_REGEX, str(type_)).group(1)
 
-        elif type_ == list:
-            res = self.serialize(obj)
+            if type_ == dict:
+                res = self.serialize_dict(obj)
 
-        elif type_ == tuple:
-            res = self.serialize(obj)
+            elif type_ == list:
+                res = self.serialize_itter(obj)
 
-        elif type_ == set:
-            res = self.serialize(obj)
+            elif type_ == tuple:
+                res = self.serialize_itter(obj)
 
-        elif isinstance(obj, (int, float, complex, bool, str, type(None))):
-            res = self.serialize(obj)
+            elif type_ == set:
+                res = self.serialize_itter(obj)
 
-        elif inspect.isfunction(obj):
-            res = self.serialize(obj)
+            elif isinstance(obj, (int, float, complex, bool, str, type(None))):
+                res = self.serialize_primitive(obj)
 
-        elif inspect.ismethod(obj):
-            res = self.serialize(obj)
+            elif inspect.isfunction(obj):
+                res = self.serialize_func(obj)
 
-        elif inspect.iscode(obj):
-            res = self.serialize(obj)
+            elif inspect.ismethod(obj):
+                res = self.serialize_func(obj)
 
-        elif hasattr(obj, '__dict__'):
-            res = self.serialize(obj)
+            elif inspect.iscode(obj):
+                res = self.serialize_other(obj)
 
-        return tuple(res)
+            elif inspect.ismethoddescriptor(obj):
+                res = self.serialize_other(obj)
+
+            elif hasattr(obj, '__dict__'):
+                res = self.serialize_object(obj)
+                res[TYPE_FIELD] = OBJECT
+                return frozendict(res)
+            else:
+                res = self.serialize_other(obj)
+
+        res[TYPE_FIELD] = type_str
+
+        return frozendict(res)
 
     def serialize_dict(self, obj: dict):
         res = {VALUE_FIELD: {}}
@@ -75,8 +90,44 @@ class Serializer:
 
         return res
 
-    def serialize_func(self):
-        pass
+    def serialize_func(self, obj):
+        if inspect.ismethod(obj):
+            obj = obj.__func__
+
+        res = {VALUE_FIELD: {}}
+        members = []
+
+        for member in inspect.getmembers(obj):
+            if member[0] in FUNCTION_ATTRIBUTE:
+                members.append(member)
+
+        for key, value in members:
+            res_key = self.serialize(key)
+            res_value = self.serialize(value)
+
+            res[VALUE_FIELD][res_key] = res_value
+
+            if key == CODE_FIELD:
+                global_key = self.serialize(GLOBAL_FIELD)
+                res[VALUE_FIELD][global_key] = {}
+
+                global_attr = obj.__getattribute__(GLOBAL_FIELD)
+
+                dict_ = dict()
+
+                for attr in value.__getattribute__(CODE_NAME_ATTRIBUTE):
+                    if attr == obj.__name__:
+                        dict_[attr] = obj.__name__
+
+                    elif attr in global_attr:
+                        if inspect.ismodule(global_attr[attr]) and attr in __builtins__:
+                            continue
+
+                        dict_[attr] = global_attr[attr]
+
+                res[VALUE_FIELD][global_key] = self.serialize(dict_)
+
+        return res
 
     def serialize_class(self, obj):
         res = {VALUE_FIELD: {}}
@@ -105,7 +156,6 @@ class Serializer:
 
         return res
 
-
     def serialize_object(self, obj):
         res = {VALUE_FIELD: {}}
         type_ = type(obj)
@@ -120,7 +170,7 @@ class Serializer:
 
         return res
 
-    def serialize_other(self):
+    def serialize_other(self, obj):
         pass
 
     """deserialize method"""
@@ -207,8 +257,37 @@ class Serializer:
 
         return res
 
-    def deserialize_func(self):
-        pass
+    def deserialize_func(self, obj):
+        res = object
+        func_arg = []
+        code_arg = []
+        global_arg = {'__builtins__': __builtins__}
+
+        for key in FUNCTION_ATTRIBUTE:
+            value = obj[VALUE_FIELD][self.serialize(key)]
+
+            if key == CODE_FIELD:
+                for arg_key in CODE_ATTRIBUTE:
+                    res_arg_value = self.deserialize(obj[VALUE_FIELD][self.serialize(CODE_FIELD)][VALUE_FIELD][self.serialize(arg_key)])
+                    code_arg.append(res_arg_value)
+
+                func_arg = [CodeType(*code_arg)]
+
+            elif key == GLOBAL_FIELD:
+                for arg_key, arg_value in self.deserialize(obj[VALUE_FIELD][self.serialize(GLOBAL_FIELD)]).items():
+                    global_arg[arg_key] = arg_value
+
+                func_arg.append(global_arg)
+
+            else:
+                func_arg.append(self.deserialize(value))
+
+        res = FunctionType(*func_arg)
+
+        if res.__name__ in res.__getattribute__(GLOBAL_FIELD):
+            res.__getattribute__(GLOBAL_FIELD)[res.__name__] = res
+
+        return res
 
     def deserialize_class(self, obj):
         res_data = self.serialize(DATA)
