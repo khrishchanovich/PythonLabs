@@ -1,9 +1,11 @@
 from abc import ABC, abstractmethod
-
+from Lab3.Serializer.serializer import Serializer
 """Abstract class Parser"""
 
 
 class Parser(ABC):
+    def __init__(self):
+        self.serializer = Serializer()
 
     @abstractmethod
     def dump(self, obj, file):
