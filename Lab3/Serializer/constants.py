@@ -18,6 +18,8 @@ CODE_ATTRIBUTE = (
     'co_varnames'
 )
 
+CODE_NAME_ATTRIBUTE = 'co_names'
+
 FUNCTION_ATTRIBUTE = (
     '__doc__',
     '__name__',
