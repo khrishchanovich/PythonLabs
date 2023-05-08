@@ -4,7 +4,7 @@ from frozendict import frozendict
 from types import CodeType, FunctionType
 from constants import (CODE_ATTRIBUTE, CLASS_ATTRIBUTE, FUNCTION_ATTRIBUTE,
                         CODE_FIELD, GLOBAL_FIELD, NAME_FIELD, TYPE_FIELD, VALUE_FIELD,
-                       CLASS, OBJECT, DICT, FUNC, CODE,
+                       CLASS, OBJECT, DICT, FUNC, CODE, BASE, DATA,
                        PRIMITIVE_TYPES, ITERABLE_TYPES)
 
 """Class Serializer"""
@@ -76,8 +76,33 @@ class Serializer:
     def serialize_func(self):
         pass
 
-    def serialize_class(self):
-        pass
+    def serialize_class(self, obj):
+        res = {VALUE_FIELD: {}}
+
+        members = []
+        bases = []
+
+        for base in obj.__bases__:
+            if base.__name__ != OBJECT:
+                bases.append(base)
+
+        res[VALUE_FIELD][self.serialize(BASE)] = self.serialize(bases)
+
+        for member in inspect.getmembers(obj):
+            if member[0] not in CLASS_ATTRIBUTE:
+                members.append(member)
+
+        res_data = self.serialize(DATA)
+
+        dict_ = {NAME_FIELD: obj.__name__}
+
+        for member in members:
+            dict_[member[0]] = member[1]
+
+        res[VALUE_FIELD][res_data] = self.serialize(dict_)
+
+        return res
+
 
     def serialize_object(self, obj):
         res = {VALUE_FIELD: {}}
@@ -183,8 +208,17 @@ class Serializer:
     def deserialize_func(self):
         pass
 
-    def deserialize_class(self):
-        pass
+    def deserialize_class(self, obj):
+        res_data = self.serialize(DATA)
+
+        res_bases = tuple(self.deserialize(obj[VALUE_FIELD][self.serialize(BASE)]))
+
+        res = self.deserialize(obj[VALUE_FIELD][res_data])
+        res_name = res[NAME_FIELD]
+
+        del res[NAME_FIELD]
+
+        return type(res_name, (object,), res)
 
     def deserialize_object(self, obj):
         res = object
