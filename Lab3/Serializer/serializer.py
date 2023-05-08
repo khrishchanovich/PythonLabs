@@ -39,8 +39,16 @@ class Serializer:
 
         return tuple(res)
 
-    def serialize_dict(self):
-        pass
+    def serialize_dict(self, obj: dict):
+        res = {VALUE_FIELD: {}}
+
+        for key, value in obj.items():
+            res_key = self.serialize(key)
+            res_value = self.serialize(value)
+
+            res[VALUE_FIELD][res_key] = res_value
+
+        return res
 
     def serialize_type(self):
         pass
@@ -81,8 +89,19 @@ class Serializer:
 
         return res
 
-    def deserialize_dict(self):
-        pass
+    def deserialize_dict(self, obj):
+        res = {}
+
+        if type(obj[VALUE_FIELD]) == tuple:
+            return {}
+
+        for key, value in obj[VALUE_FIELD].items():
+            res_key = self.deserialize(key)
+            res_value = self.deserialize(value)
+
+            res[res_key] = res_value
+
+        return res
 
     def deserialize_type(self):
         pass
