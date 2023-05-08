@@ -19,7 +19,7 @@ class Serializer:
         type_ = type(obj)
 
         if type_ == dict:
-            res = self.serialize(obj)
+            res = self.serialize_dict(obj)
         elif type_ == list:
             res = self.serialize(obj)
         elif type_ == tuple:
@@ -50,8 +50,10 @@ class Serializer:
 
         return res
 
-    def serialize_type(self):
-        pass
+    def serialize_primitive(self, obj):
+        res = {VALUE_FIELD: str(obj)}
+
+        return res
 
     def serialize_itter(self):
         pass
@@ -75,7 +77,7 @@ class Serializer:
         res = object
 
         if type_string == DICT:
-            res = self.deserialize(obj)
+            res = self.deserialize_dict(obj)
         elif type_string == PRIMITIVE_TYPES:
             res = self.deserialize(obj)
         elif type_string == ITERABLE_TYPES:
@@ -103,8 +105,28 @@ class Serializer:
 
         return res
 
-    def deserialize_type(self):
-        pass
+    def deserialize_primitive(self, obj):
+        res = obj
+
+        if obj[TYPE_FIELD] == PRIMITIVE_TYPES[0]:
+            res = int(obj[VALUE_FIELD])
+
+        elif obj[TYPE_FIELD] == PRIMITIVE_TYPES[1]:
+            res = float(obj[VALUE_FIELD])
+
+        elif obj[TYPE_FIELD] == PRIMITIVE_TYPES[2]:
+            res = complex(obj[VALUE_FIELD])
+
+        elif obj[TYPE_FIELD] == PRIMITIVE_TYPES[3]:
+            res = bool(obj[VALUE_FIELD])
+
+        elif obj[TYPE_FIELD] == PRIMITIVE_TYPES[4]:
+            res = obj[VALUE_FIELD]
+
+        elif obj[TYPE_FIELD] == PRIMITIVE_TYPES[5]:
+            res = None
+
+        return res
 
     def deserialize_itter(self):
         pass
