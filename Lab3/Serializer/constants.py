@@ -54,7 +54,7 @@ VALUE_FIELD = 'VALUE'
 
 PRIMITIVE_TYPES = ['int', 'float', 'complex', 'bool', 'str', 'NoneType']
 
-ITERABLE_TYPES = ['list', 'tuple', 'bytes', 'set']
+COLLECTIONS = ['list', 'tuple', 'bytes', 'set']
 
 CLASS = 'class'
 OBJECT = 'object'

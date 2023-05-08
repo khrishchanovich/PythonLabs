@@ -5,9 +5,11 @@ from types import CodeType, FunctionType
 from constants import (CODE_ATTRIBUTE, CLASS_ATTRIBUTE, FUNCTION_ATTRIBUTE,
                         CODE_FIELD, GLOBAL_FIELD, NAME_FIELD, TYPE_FIELD, VALUE_FIELD,
                        CLASS, OBJECT, DICT, FUNC, CODE, BASE, DATA,
-                       PRIMITIVE_TYPES, ITERABLE_TYPES)
+                       PRIMITIVE_TYPES, COLLECTIONS)
 
-"""Class Serializer"""
+
+"""Class Serializer/Deserializer"""
+
 
 class Serializer:
 
@@ -133,7 +135,7 @@ class Serializer:
         elif type_string == PRIMITIVE_TYPES:
             res = self.deserialize(obj)
 
-        elif type_string == ITERABLE_TYPES:
+        elif type_string == COLLECTIONS:
             res = self.deserialize(obj)
 
         elif type_string == FUNC:
@@ -191,16 +193,16 @@ class Serializer:
             res_value = self.deserialize(value)
             res.append(res_value)
 
-        if obj[TYPE_FIELD] == ITERABLE_TYPES[0]:
+        if obj[TYPE_FIELD] == COLLECTIONS[0]:
             res = list(res)
 
-        elif obj[TYPE_FIELD] == ITERABLE_TYPES[1]:
+        elif obj[TYPE_FIELD] == COLLECTIONS[1]:
             res = tuple(res)
 
-        elif obj[TYPE_FIELD] == ITERABLE_TYPES[2]:
+        elif obj[TYPE_FIELD] == COLLECTIONS[2]:
             res = bytes(res)
 
-        elif obj[TYPE_FIELD] == ITERABLE_TYPES[3]:
+        elif obj[TYPE_FIELD] == COLLECTIONS[3]:
             res = set(res)
 
         return res
