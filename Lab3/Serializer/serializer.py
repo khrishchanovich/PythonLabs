@@ -79,8 +79,19 @@ class Serializer:
     def serialize_class(self):
         pass
 
-    def serialize_object(self):
-        pass
+    def serialize_object(self, obj):
+        res = {VALUE_FIELD: {}}
+        type_ = type(obj)
+
+        for attr, value in obj.__dict__.items():
+            res_attr = self.serialize(attr)
+            res_value = self.serialize(value)
+
+            res[VALUE_FIELD][res_attr] = res_value
+
+        res[VALUE_FIELD][self.serialize(TYPE_FIELD)] = self.serialize(type_)
+
+        return res
 
     def serialize_other(self):
         pass
@@ -175,8 +186,18 @@ class Serializer:
     def deserialize_class(self):
         pass
 
-    def deserialize_object(self):
-        pass
+    def deserialize_object(self, obj):
+        res = object
+
+        res = self.deserialize(obj[VALUE_FIELD][self.deserialize(TYPE_FIELD)])
+
+        for attr, value in obj[VALUE_FIELD].items():
+            res_attr = self.deserialize(attr)
+            res_value = self.deserialize(value)
+
+            res.res_attr = res_value
+
+        return res
 
     def deserialize_other(self):
         pass
