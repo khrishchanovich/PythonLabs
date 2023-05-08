@@ -19,6 +19,6 @@ def load(file):
 
 
 if __name__ == "__main__":
-    str_ = '{"name":"Luci"}'
+    str_ = {"name":"Luci"}
     with open('f.json', 'w') as f:
         dump(str_, f)
