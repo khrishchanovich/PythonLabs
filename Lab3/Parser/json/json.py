@@ -1,5 +1,5 @@
 from frozendict import frozendict
-from constants import VALUE_FIELD, TYPE_FIELD
+from Lab3.Parser.json.constants import VALUE_FIELD, TYPE_FIELD
 
 import re
 
@@ -78,7 +78,7 @@ def deserialize_json(str_):
                 elif str_[i] == '}' and not current_flag:
                     counter2 -= 1
 
-                elif str_[i] == '"':
+                elif str_[i] == '\"':
                     current_flag = not current_flag
 
                 elif str_[i] == ', ' and not current_flag and counter2 == 0 and counter1 != 0:
@@ -112,8 +112,13 @@ def deserialize_json(str_):
             ans[VALUE_FIELD] = {}
             list_ = tuple(list_)
 
+            for i in range(0, len(list_), 2):
+                ans[VALUE_FIELD][list_[i]] = list_[i + 1]
+
+            temp = ''
+
             for i in range(temp_i + 11, len(str_)):
-                if str_[i] == '"':
+                if str_[i] == '\"':
                     ans[TYPE_FIELD] = temp
                     temp = ''
 
@@ -136,7 +141,7 @@ def deserialize_json(str_):
                 elif str_[i] == '}' and not current_flag:
                     counter -= 1
 
-                if str_[i] == '"':
+                if str_[i] == '\"':
                     current_flag = not current_flag
 
                 elif str_[i] == ',' and not current_flag and counter == 0:
@@ -163,7 +168,7 @@ def deserialize_json(str_):
             ans[VALUE_FIELD] = list_
 
             for i in range(temp_i + 12, len(str_)):
-                if str_[i] == '"':
+                if str_[i] == '\"':
                     ans[TYPE_FIELD] = temp
                     temp = ''
 
@@ -185,7 +190,7 @@ def deserialize_json(str_):
                 elif str_[i] == '}' and not current_flag:
                     counter -= 1
 
-                elif str_[i] == '"':
+                elif str_[i] == '\"':
                     current_flag = not current_flag
 
                 elif str_[i] == ',' and not current_flag and counter == 0:
@@ -200,7 +205,7 @@ def deserialize_json(str_):
                 temp += str_[i]
 
             for i in range(temp_i + 11, len(str_)):
-                if str_[i] == '"':
+                if str_[i] == '\"':
                     ans[TYPE_FIELD] = temp
                     temp = ''
 
@@ -215,13 +220,13 @@ def deserialize_json(str_):
             i = 10
 
             while i < len(str_):
-                if str_[i] == '"' and not current_flag:
+                if str_[i] == '\"' and not current_flag:
                     ans[VALUE_FIELD] = temp
                     temp = ''
                     current_flag = True
                     i += 11
 
-                elif str_[i] == '"' and current_flag:
+                elif str_[i] == '\"' and current_flag:
                     ans[TYPE_FIELD] = temp
                     temp = ''
 
