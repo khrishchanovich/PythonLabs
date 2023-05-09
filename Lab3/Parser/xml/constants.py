@@ -1,1 +1,1 @@
-PRIMITIVE_TYPES = ['int', 'float', 'complex', 'bool', 'str', 'NoneType']
+PRIMITIVE_TYPES = (int, float, complex, bool, str, type(None))
