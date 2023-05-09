@@ -4,8 +4,8 @@ from Lab3.Parser.parser import Parser
 
 class Json(Parser):
 
-    def dump(self, obj, file):
-        with open(file, 'w') as f:
+    def dump(self, obj, file: str):
+        with open(file, 'w+') as f:
             f.write(self.dumps(obj))
 
     def dumps(self, obj):
