@@ -10,102 +10,102 @@ class PrimitiveTypesCase(unittest.TestCase):
 
     def test_dumps_only(self):
         self.assertEqual(self.json_serializer.dumps('123'), '{"VALUE": "123", "TYPE": "str"}')
-        self.assertEqual(self.xml_serializer.dumps('123'), '123')
+        self.assertEqual(self.xml_serializer.dumps('123'), {"<class 'str'>": '123'})
 
         self.assertEqual(self.json_serializer.dumps(123), '{"VALUE": "123", "TYPE": "int"}')
-        self.assertEqual(self.xml_serializer.dumps(123), 123)
+        self.assertEqual(self.xml_serializer.dumps(123), {"<class 'int'>": 123})
 
         self.assertEqual(self.json_serializer.dumps(123.123), '{"VALUE": "123.123", "TYPE": "float"}')
-        self.assertEqual(self.xml_serializer.dumps(123.123), 123.123)
+        self.assertEqual(self.xml_serializer.dumps(123.123), {"<class 'float'>": 123.123})
 
         self.assertEqual(self.json_serializer.dumps(123j + 0.123), '{"VALUE": "(0.123+123j)", "TYPE": "complex"}')
-        self.assertEqual(self.xml_serializer.dumps(123j + 0.123), 123j + 0.123)
+        self.assertEqual(self.xml_serializer.dumps(123j + 0.123), {"<class 'complex'>": (0.123+123j)})
 
         self.assertEqual(self.json_serializer.dumps('False'), '{"VALUE": "False", "TYPE": "str"}')
-        self.assertEqual(self.xml_serializer.dumps('False'), 'False')
+        self.assertEqual(self.xml_serializer.dumps('False'), {"<class 'str'>": 'False'})
 
         self.assertEqual(self.json_serializer.dumps(False), '{"VALUE": "False", "TYPE": "bool"}')
-        self.assertEqual(self.xml_serializer.dumps(False), False)
+        self.assertEqual(self.xml_serializer.dumps(False), {"<class 'bool'>": False})
 
         self.assertEqual(self.json_serializer.dumps(''), '{"VALUE": "", "TYPE": "str"}')
-        self.assertEqual(self.xml_serializer.dumps(''), '')
+        self.assertEqual(self.xml_serializer.dumps(''), {"<class 'str'>": ''})
 
         self.assertEqual(self.json_serializer.dumps(None), '{"VALUE": "None", "TYPE": "NoneType"}')
-        self.assertEqual(self.xml_serializer.dumps(None), None)
+        self.assertEqual(self.xml_serializer.dumps(None), {'None': 'None'})
 
     def test_loads_only(self):
         self.assertEqual(self.json_serializer.loads('{"VALUE": "123", "TYPE": "str"}'), '123')
-        self.assertEqual(self.xml_serializer.loads('123'), '123')
+        self.assertEqual(self.xml_serializer.loads({"<class 'str'>": '123'}), '123')
 
         self.assertEqual(self.json_serializer.loads('{"VALUE": "123", "TYPE": "int"}'), 123)
-        self.assertEqual(self.xml_serializer.loads(123), 123)
+        self.assertEqual(self.xml_serializer.loads({"<class 'int'>": 123}), 123)
 
         self.assertEqual(self.json_serializer.loads('{"VALUE": "123.123", "TYPE": "float"}'), 123.123)
-        self.assertEqual(self.xml_serializer.loads(123.123), 123.123)
+        self.assertEqual(self.xml_serializer.loads({"<class 'float'>": 123.123}), 123.123)
 
         self.assertEqual(self.json_serializer.loads('{"VALUE": "(0.123+123j)", "TYPE": "complex"}'), 123j + 0.123)
-        self.assertEqual(self.xml_serializer.loads(123j + 0.123), 123j + 0.123)
+        self.assertEqual(self.xml_serializer.loads({"<class 'complex'>": (0.123+123j)}), 123j + 0.123)
 
         self.assertEqual(self.json_serializer.loads('{"VALUE": "False", "TYPE": "str"}'), 'False')
-        self.assertEqual(self.xml_serializer.loads('False'), 'False')
+        self.assertEqual(self.xml_serializer.loads({"<class 'str'>": 'False'}), 'False')
 
         self.assertEqual(self.json_serializer.loads('{"VALUE": "True", "TYPE": "bool"}'), True)
-        self.assertEqual(self.xml_serializer.loads(True), True)
+        self.assertEqual(self.xml_serializer.loads({"<class 'bool'>": True}), True)
 
         self.assertEqual(self.json_serializer.loads('{"VALUE": "", "TYPE": "str"}'), '')
-        self.assertEqual(self.xml_serializer.loads(''), '')
+        self.assertEqual(self.xml_serializer.loads({"<class 'str'>": ''}), '')
 
         self.assertEqual(self.json_serializer.loads('{"VALUE": "None", "TYPE": "NoneType"}'), None)
-        self.assertEqual(self.xml_serializer.loads(None), None)
+        self.assertEqual(self.xml_serializer.loads({'None': 'None'}), None)
 
     def test_dumps_and_loads(self):
         self.assertEqual(self.json_serializer.dumps('123'), '{"VALUE": "123", "TYPE": "str"}')
-        self.assertEqual(self.xml_serializer.dumps('123'), '123')
+        self.assertEqual(self.xml_serializer.dumps('123'), {"<class 'str'>": '123'})
 
         self.assertEqual(self.json_serializer.dumps(123), '{"VALUE": "123", "TYPE": "int"}')
-        self.assertEqual(self.xml_serializer.dumps(123), 123)
+        self.assertEqual(self.xml_serializer.dumps(123), {"<class 'int'>": 123})
 
         self.assertEqual(self.json_serializer.dumps(123.123), '{"VALUE": "123.123", "TYPE": "float"}')
-        self.assertEqual(self.xml_serializer.dumps(123.123), 123.123)
+        self.assertEqual(self.xml_serializer.dumps(123.123), {"<class 'float'>": 123.123})
 
         self.assertEqual(self.json_serializer.dumps(123j + 0.123), '{"VALUE": "(0.123+123j)", "TYPE": "complex"}')
-        self.assertEqual(self.xml_serializer.dumps(123j + 0.123), 123j + 0.123)
+        self.assertEqual(self.xml_serializer.dumps(123j + 0.123), {"<class 'complex'>": (0.123+123j)})
 
         self.assertEqual(self.json_serializer.dumps('False'), '{"VALUE": "False", "TYPE": "str"}')
-        self.assertEqual(self.xml_serializer.dumps('False'), 'False')
+        self.assertEqual(self.xml_serializer.dumps('False'), {"<class 'str'>": 'False'})
 
         self.assertEqual(self.json_serializer.dumps(False), '{"VALUE": "False", "TYPE": "bool"}')
-        self.assertEqual(self.xml_serializer.dumps(False), False)
+        self.assertEqual(self.xml_serializer.dumps(False), {"<class 'bool'>": False})
 
         self.assertEqual(self.json_serializer.dumps(''), '{"VALUE": "", "TYPE": "str"}')
-        self.assertEqual(self.xml_serializer.dumps(''), '')
+        self.assertEqual(self.xml_serializer.dumps(''), {"<class 'str'>": ''})
 
         self.assertEqual(self.json_serializer.dumps(None), '{"VALUE": "None", "TYPE": "NoneType"}')
-        self.assertEqual(self.xml_serializer.dumps(None), None)
+        self.assertEqual(self.xml_serializer.dumps(None), {'None': 'None'})
 
         self.assertEqual(self.json_serializer.loads('{"VALUE": "123", "TYPE": "str"}'), '123')
-        self.assertEqual(self.xml_serializer.loads('123'), '123')
+        self.assertEqual(self.xml_serializer.loads({"<class 'str'>": '123'}), '123')
 
         self.assertEqual(self.json_serializer.loads('{"VALUE": "123", "TYPE": "int"}'), 123)
-        self.assertEqual(self.xml_serializer.loads(123), 123)
+        self.assertEqual(self.xml_serializer.loads({"<class 'int'>": 123}), 123)
 
         self.assertEqual(self.json_serializer.loads('{"VALUE": "123.123", "TYPE": "float"}'), 123.123)
-        self.assertEqual(self.xml_serializer.loads(123.123), 123.123)
+        self.assertEqual(self.xml_serializer.loads({"<class 'float'>": 123.123}), 123.123)
 
         self.assertEqual(self.json_serializer.loads('{"VALUE": "(0.123+123j)", "TYPE": "complex"}'), 123j + 0.123)
-        self.assertEqual(self.xml_serializer.loads(123j + 0.123), 123j + 0.123)
+        self.assertEqual(self.xml_serializer.loads({"<class 'complex'>": (0.123+123j)}), 123j + 0.123)
 
         self.assertEqual(self.json_serializer.loads('{"VALUE": "False", "TYPE": "str"}'), 'False')
-        self.assertEqual(self.xml_serializer.loads('False'), 'False')
+        self.assertEqual(self.xml_serializer.loads({"<class 'str'>": 'False'}), 'False')
 
         self.assertEqual(self.json_serializer.loads('{"VALUE": "True", "TYPE": "bool"}'), True)
-        self.assertEqual(self.xml_serializer.loads(True), True)
+        self.assertEqual(self.xml_serializer.loads({"<class 'bool'>": True}), True)
 
         self.assertEqual(self.json_serializer.loads('{"VALUE": "", "TYPE": "str"}'), '')
-        self.assertEqual(self.xml_serializer.loads(''), '')
+        self.assertEqual(self.xml_serializer.loads({"<class 'str'>": ''}), '')
 
         self.assertEqual(self.json_serializer.loads('{"VALUE": "None", "TYPE": "NoneType"}'), None)
-        self.assertEqual(self.xml_serializer.loads(None), None)
+        self.assertEqual(self.xml_serializer.loads({'None': 'None'}), None)
 
     def test_dump_and_load(self):
         """***"""
@@ -116,10 +116,10 @@ class PrimitiveTypesCase(unittest.TestCase):
             self.assertEqual(self.json_serializer.load('Files/JSON.json'), '123')
 
         with open('Files/XML.xml', 'w+') as file:
-            self.json_serializer.dump('123', 'Files/XML.xml')
+            self.xml_serializer.dump('123', 'Files/XML.xml')
 
         with open('Files/XML.xml', 'r') as file:
-            self.assertEqual(self.json_serializer.load('Files/XML.xml'), '123')
+            self.assertEqual(self.xml_serializer.load('Files/XML.xml'), '123')
         """***"""
 
         """***"""
@@ -144,10 +144,10 @@ class PrimitiveTypesCase(unittest.TestCase):
             self.assertEqual(self.json_serializer.load('Files/JSON.json'), 123.123)
 
         with open('Files/XML.xml', 'w+') as file:
-            self.json_serializer.dump(123.123, 'Files/XML.xml')
+            self.xml_serializer.dump(123.123, 'Files/XML.xml')
 
         with open('Files/XML.xml', 'r') as file:
-            self.assertEqual(self.json_serializer.load('Files/XML.xml'), 123.123)
+            self.assertEqual(self.xml_serializer.load('Files/XML.xml'), 123.123)
         """***"""
 
         """***"""
@@ -158,10 +158,10 @@ class PrimitiveTypesCase(unittest.TestCase):
             self.assertEqual(self.json_serializer.load('Files/JSON.json'), 123j + 0.123)
 
         with open('Files/XML.xml', 'w+') as file:
-            self.json_serializer.dump(123j + 0.123, 'Files/XML.xml')
+            self.xml_serializer.dump(123j + 0.123, 'Files/XML.xml')
 
         with open('Files/XML.xml', 'r') as file:
-            self.assertEqual(self.json_serializer.load('Files/XML.xml'), 123j + 0.123)
+            self.assertEqual(self.xml_serializer.load('Files/XML.xml'), 123j + 0.123)
         """***"""
 
         """***"""
@@ -172,10 +172,10 @@ class PrimitiveTypesCase(unittest.TestCase):
             self.assertEqual(self.json_serializer.load('Files/JSON.json'), 'False')
 
         with open('Files/XML.xml', 'w+') as file:
-            self.json_serializer.dump('False', 'Files/XML.xml')
+            self.xml_serializer.dump('False', 'Files/XML.xml')
 
         with open('Files/XML.xml', 'r') as file:
-            self.assertEqual(self.json_serializer.load('Files/XML.xml'), 'False')
+            self.assertEqual(self.xml_serializer.load('Files/XML.xml'), 'False')
         """***"""
 
         """***"""
@@ -186,10 +186,10 @@ class PrimitiveTypesCase(unittest.TestCase):
             self.assertEqual(self.json_serializer.load('Files/JSON.json'), True)
 
         with open('Files/XML.xml', 'w+') as file:
-            self.json_serializer.dump(True, 'Files/XML.xml')
+            self.xml_serializer.dump(True, 'Files/XML.xml')
 
         with open('Files/XML.xml', 'r') as file:
-            self.assertEqual(self.json_serializer.load('Files/XML.xml'), True)
+            self.assertEqual(self.xml_serializer.load('Files/XML.xml'), True)
         """***"""
 
         """***"""
@@ -200,10 +200,10 @@ class PrimitiveTypesCase(unittest.TestCase):
             self.assertEqual(self.json_serializer.load('Files/JSON.json'), '')
 
         with open('Files/XML.xml', 'w+') as file:
-            self.json_serializer.dump('', 'Files/XML.xml')
+            self.xml_serializer.dump('', 'Files/XML.xml')
 
         with open('Files/XML.xml', 'r') as file:
-            self.assertEqual(self.json_serializer.load('Files/XML.xml'), '')
+            self.assertEqual(self.xml_serializer.load('Files/XML.xml'), '')
         """***"""
 
         with open('Files/JSON.json', 'w+') as file:
@@ -213,10 +213,10 @@ class PrimitiveTypesCase(unittest.TestCase):
             self.assertEqual(self.json_serializer.load('Files/JSON.json'), None)
 
         with open('Files/XML.xml', 'w+') as file:
-            self.json_serializer.dump(None, 'Files/XML.xml')
+            self.xml_serializer.dump(None, 'Files/XML.xml')
 
         with open('Files/XML.xml', 'r') as file:
-            self.assertEqual(self.json_serializer.load('Files/XML.xml'), None)
+            self.assertEqual(self.xml_serializer.load('Files/XML.xml'), None)
 
 
 class CollectionsCase(unittest.TestCase):
@@ -259,6 +259,7 @@ class CollectionsCase(unittest.TestCase):
         }
 
         self.assertEqual(self.json_serialize.loads(self.json_serialize.dumps(test_1)), test_1)
+
         self.assertEqual(self.xml_serialize.loads(self.xml_serialize.dumps(test_1)), test_1)
 
 
