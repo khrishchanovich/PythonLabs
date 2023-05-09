@@ -1,13 +1,17 @@
 import unittest
 
 from Lab3.Parser.json.json_parser import Json
+from Lab3.Parser.xml.xml_parser import Xml
 
 
 class JSONPrimitiveTypesCase(unittest.TestCase):
     json_serializer = Json()
+    xml_serializer = Xml()
 
     def test_dumps_only(self):
         self.assertEqual(self.json_serializer.dumps('123'), '{"VALUE": "123", "TYPE": "str"}')
+        self.assertEqual(self.xml_serializer.dumps('123'), '')
+
         self.assertEqual(self.json_serializer.dumps(123), '{"VALUE": "123", "TYPE": "int"}')
         self.assertEqual(self.json_serializer.dumps(123.123), '{"VALUE": "123.123", "TYPE": "float"}')
         self.assertEqual(self.json_serializer.dumps(123j + 0.123), '{"VALUE": "(0.123+123j)", "TYPE": "complex"}')
