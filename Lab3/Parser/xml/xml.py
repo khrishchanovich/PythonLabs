@@ -1,6 +1,7 @@
 import builtins
 import inspect
 import types
+from frozendict import frozendict
 from types import LambdaType, CodeType, FunctionType, ModuleType
 
 from Lab3.Parser.xml.constants import PRIMITIVE_TYPES
