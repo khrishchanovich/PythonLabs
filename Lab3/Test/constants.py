@@ -1,2 +1,2 @@
-JSON_PATH = 'Files/JSON.json'
-
+JSON_PATH = 'JSON.json'
+DATA_DIR = 'Files'
