@@ -279,3 +279,73 @@ def from_string_object(obj):
     res.__dict__ = attr
 
     return res
+
+def to_dict(obj):
+    if isinstance(obj, type(None)):
+
+        return {
+            "None": "None"
+        }
+
+    elif isinstance(obj, PRIMITIVE_TYPES):
+
+        return {
+            str(type(obj)): obj
+        }
+
+    elif isinstance(obj, (list, tuple, set)):
+        res = []
+
+        for i in obj:
+            res.append(to_dict(i))
+
+        return {
+            str(type(obj)): res
+        }
+
+    elif isinstance(obj, dict):
+        res = {}
+
+        for key, value in obj.items():
+            res[key] = to_dict(value)
+
+        return res
+
+    else:
+        raise Exception('Unknown type')
+
+
+def from_dict(obj):
+    if type(obj) is dict:
+        if len(obj.keys()) == 1:
+            key, value = list(obj.items())[0]
+
+            if key == "None":
+                return None
+
+            elif isinstance(value, PRIMITIVE_TYPES):
+                return value
+
+            elif isinstance(value, list):
+                res = []
+
+                for i in value:
+                    res.append(from_dict(obj))
+
+                if key == "<class 'tuple'>":
+                    res = tuple(res)
+
+                elif key == "<class 'set'>":
+                    res = set(res)
+
+                return res
+
+        res = {}
+
+        for key, value in obj.items():
+            res[key] = from_dict(value)
+
+        return res
+
+    else:
+        raise Exception('Object type must be dict')
