@@ -164,25 +164,25 @@ def to_string_objects(obj):
         return to_string_object(obj)
 
 
-def from_string_objects(src):
-    if isinstance(src, PRIMITIVE_TYPES):
-        return src
+def from_string_objects(obj):
+    if isinstance(obj, PRIMITIVE_TYPES):
+        return obj
 
-    elif isinstance(src, dict):
-        if 'function' is src.values():
-            return from_string_func(src)
+    elif isinstance(obj, dict):
+        if 'function' in obj.values():
+            return from_string_func(obj)
 
-        elif 'object' in src.values():
-            return from_string_object(src)
+        elif 'object' in obj.values():
+            return from_string_object(obj)
 
-        elif 'class' in src.values():
-            return from_string_class(src)
+        elif 'class' in obj.values():
+            return from_string_class(obj)
 
         else:
-            return from_string_iter(src)
+            return from_string_iter(obj)
 
-    elif getattr(src, "__iter__", None) is not None:
-        return from_string_iter(src)
+    elif getattr(obj, "__iter__", None) is not None:
+        return from_string_iter(obj)
 
     else:
         raise Exception('Unknown type')
@@ -330,7 +330,7 @@ def from_dict(obj):
                 res = []
 
                 for i in value:
-                    res.append(from_dict(obj))
+                    res.append(from_dict(i))
 
                 if key == "<class 'tuple'>":
                     res = tuple(res)
