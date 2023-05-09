@@ -1,5 +1,5 @@
 from frozendict import frozendict
-from Lab3.Parser.json.constants import VALUE_FIELD, TYPE_FIELD, R1, R2, R3
+from Lab3.Parser.json.constants import VALUE_FIELD, TYPE_FIELD
 import re
 
 
@@ -50,7 +50,7 @@ def deserialize_json(str_):  # string to obj
         ans = dict()
         str_ = str_[1:len(str_) - 1]
 
-        if re.match(R1, str_):
+        if re.match("\"VALUE\": \[\[", str_):
             temp = ""
             current_flag = False
             temp_i = 0
@@ -126,7 +126,7 @@ def deserialize_json(str_):  # string to obj
                 else:
                     temp += str_[i]
 
-        elif re.match(R2, str_):
+        elif re.match("\"VALUE\": \[", str_):
             temp = ""
             current_flag = False
             temp_i = 0
@@ -176,7 +176,7 @@ def deserialize_json(str_):  # string to obj
                 else:
                     temp += str_[i]
 
-        elif re.match(R3, str_):
+        elif re.match("\"VALUE\": \{", str_):
             temp = ""
             current_flag = False
             temp_i = 0
