@@ -109,113 +109,113 @@ class PrimitiveTypesCase(unittest.TestCase):
 
     def test_dump_and_load(self):
         """***"""
-        with open('Files/JSON.json', 'w+') as file:
+        with open('Files/JSON.json', 'w+') as fw:
             self.json_serializer.dump('123', 'Files/JSON.json')
 
-        with open('Files/JSON.json', 'r') as file:
+        with open('Files/JSON.json', 'r') as fr:
             self.assertEqual(self.json_serializer.load('Files/JSON.json'), '123')
 
-        with open('Files/XML.xml', 'w+') as file:
+        with open('Files/XML.xml', 'w+') as fw:
             self.xml_serializer.dump('123', 'Files/XML.xml')
 
-        with open('Files/XML.xml', 'r') as file:
+        with open('Files/XML.xml', 'r') as fr:
             self.assertEqual(self.xml_serializer.load('Files/XML.xml'), '123')
         """***"""
 
         """***"""
-        with open('Files/JSON.json', 'w+') as file:
+        with open('Files/JSON.json', 'w+') as fw:
             self.json_serializer.dump(123, 'Files/JSON.json')
 
-        with open('Files/JSON.json', 'r') as file:
+        with open('Files/JSON.json', 'r') as fr:
             self.assertEqual(self.json_serializer.load('Files/JSON.json'), 123)
 
-        with open('Files/XML.xml', 'w+') as file:
+        with open('Files/XML.xml', 'w+') as fw:
             self.xml_serializer.dump(123, 'Files/XML.xml')
 
-        with open('Files/XML.xml', 'r') as file:
+        with open('Files/XML.xml', 'r') as fr:
             self.assertEqual(self.xml_serializer.load('Files/XML.xml'), 123)
         """***"""
 
         """***"""
-        with open('Files/JSON.json', 'w+') as file:
+        with open('Files/JSON.json', 'w+') as fw:
             self.json_serializer.dump(123.123, 'Files/JSON.json')
 
-        with open('Files/JSON.json', 'r') as file:
+        with open('Files/JSON.json', 'r') as fr:
             self.assertEqual(self.json_serializer.load('Files/JSON.json'), 123.123)
 
-        with open('Files/XML.xml', 'w+') as file:
+        with open('Files/XML.xml', 'w+') as fw:
             self.xml_serializer.dump(123.123, 'Files/XML.xml')
 
-        with open('Files/XML.xml', 'r') as file:
+        with open('Files/XML.xml', 'r') as fr:
             self.assertEqual(self.xml_serializer.load('Files/XML.xml'), 123.123)
         """***"""
 
         """***"""
-        with open('Files/JSON.json', 'w+') as file:
+        with open('Files/JSON.json', 'w+') as fw:
             self.json_serializer.dump(123j + 0.123, 'Files/JSON.json')
 
-        with open('Files/JSON.json', 'r') as file:
+        with open('Files/JSON.json', 'r') as fr:
             self.assertEqual(self.json_serializer.load('Files/JSON.json'), 123j + 0.123)
 
-        with open('Files/XML.xml', 'w+') as file:
+        with open('Files/XML.xml', 'w+') as fw:
             self.xml_serializer.dump(123j + 0.123, 'Files/XML.xml')
 
-        with open('Files/XML.xml', 'r') as file:
+        with open('Files/XML.xml', 'r') as fr:
             self.assertEqual(self.xml_serializer.load('Files/XML.xml'), 123j + 0.123)
         """***"""
 
         """***"""
-        with open('Files/JSON.json', 'w+') as file:
+        with open('Files/JSON.json', 'w+') as fw:
             self.json_serializer.dump('False', 'Files/JSON.json')
 
-        with open('Files/JSON.json', 'r') as file:
+        with open('Files/JSON.json', 'r') as fr:
             self.assertEqual(self.json_serializer.load('Files/JSON.json'), 'False')
 
-        with open('Files/XML.xml', 'w+') as file:
+        with open('Files/XML.xml', 'w+') as fw:
             self.xml_serializer.dump('False', 'Files/XML.xml')
 
-        with open('Files/XML.xml', 'r') as file:
+        with open('Files/XML.xml', 'r') as fr:
             self.assertEqual(self.xml_serializer.load('Files/XML.xml'), 'False')
         """***"""
 
         """***"""
-        with open('Files/JSON.json', 'w+') as file:
+        with open('Files/JSON.json', 'w+') as fw:
             self.json_serializer.dump(True, 'Files/JSON.json')
 
-        with open('Files/JSON.json', 'r') as file:
+        with open('Files/JSON.json', 'r') as fr:
             self.assertEqual(self.json_serializer.load('Files/JSON.json'), True)
 
-        with open('Files/XML.xml', 'w+') as file:
+        with open('Files/XML.xml', 'w+') as fw:
             self.xml_serializer.dump(True, 'Files/XML.xml')
 
-        with open('Files/XML.xml', 'r') as file:
+        with open('Files/XML.xml', 'r') as fr:
             self.assertEqual(self.xml_serializer.load('Files/XML.xml'), True)
         """***"""
 
         """***"""
-        with open('Files/JSON.json', 'w+') as file:
+        with open('Files/JSON.json', 'w+') as fw:
             self.json_serializer.dump('', 'Files/JSON.json')
 
-        with open('Files/JSON.json', 'r') as file:
+        with open('Files/JSON.json', 'r') as fr:
             self.assertEqual(self.json_serializer.load('Files/JSON.json'), '')
 
-        with open('Files/XML.xml', 'w+') as file:
+        with open('Files/XML.xml', 'w+') as fw:
             self.xml_serializer.dump('', 'Files/XML.xml')
 
-        with open('Files/XML.xml', 'r') as file:
+        with open('Files/XML.xml', 'r') as fr:
             self.assertEqual(self.xml_serializer.load('Files/XML.xml'), '')
         """***"""
 
-        with open('Files/JSON.json', 'w+') as file:
+        with open('Files/JSON.json', 'w+') as fw:
             self.json_serializer.dump(None, 'Files/JSON.json')
 
-        with open('Files/JSON.json', 'r') as file:
+        with open('Files/JSON.json', 'r') as fr:
             self.assertEqual(self.json_serializer.load('Files/JSON.json'), None)
 
-        with open('Files/XML.xml', 'w+') as file:
+        with open('Files/XML.xml', 'w+') as fw:
             self.xml_serializer.dump(None, 'Files/XML.xml')
 
-        with open('Files/XML.xml', 'r') as file:
+        with open('Files/XML.xml', 'r') as fr:
             self.assertEqual(self.xml_serializer.load('Files/XML.xml'), None)
 
 
