@@ -253,7 +253,7 @@ class Serializer:
             res = complex(obj[VALUE_FIELD])
 
         elif obj[TYPE_FIELD] == PRIMITIVE_TYPES[3]:
-            res = bool(obj[VALUE_FIELD])
+            res = (obj[VALUE_FIELD] == "True")
 
         elif obj[TYPE_FIELD] == PRIMITIVE_TYPES[5]:
             res = None
