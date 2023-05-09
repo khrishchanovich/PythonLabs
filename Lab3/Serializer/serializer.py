@@ -34,16 +34,16 @@ class Serializer:
                 res = self.serialize_primitives(obj)
 
             elif type_ == list:
-                res = self.serialize_itter(obj)
+                res = self.serialize_iter(obj)
 
             elif type_ == tuple:
-                res = self.serialize_itter(obj)
+                res = self.serialize_iter(obj)
 
             elif type_ == bytes:
-                res = self.serialize_itter(obj)
+                res = self.serialize_iter(obj)
 
             elif type_ == set:
-                res = self.serialize_itter(obj)
+                res = self.serialize_iter(obj)
 
             elif inspect.isfunction(obj):
                 res = self.serialize_func(obj)
@@ -86,7 +86,7 @@ class Serializer:
 
         return res
 
-    def serialize_itter(self, obj):
+    def serialize_iter(self, obj):
         res = {VALUE_FIELD: []}
 
         for value in obj:
@@ -208,7 +208,7 @@ class Serializer:
             res = self.deserialize_primitives(obj)
 
         elif type_string in COLLECTIONS:
-            res = self.deserialize_itter(obj)
+            res = self.deserialize_iter(obj)
 
         elif type_string == FUNC:
             res = self.deserialize_func(obj)
@@ -263,7 +263,7 @@ class Serializer:
 
         return res
 
-    def deserialize_itter(self, obj):
+    def deserialize_iter(self, obj):
         res = []
 
         for value in obj[VALUE_FIELD]:
