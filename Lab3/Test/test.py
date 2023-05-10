@@ -1,5 +1,8 @@
 import unittest
 
+import math
+
+import json
 from Lab3.Parser.json.json_parser import Json
 from Lab3.Parser.xml.xml_parser import Xml
 
@@ -323,7 +326,6 @@ class ClassCase(unittest.TestCase):
         self.assertEqual(self.xml_serializer.loads(self.xml_serializer.dumps(TestClass2.test_class_2())),
                          TestClass2.test_class_2())
 
-
 GLOBAL_VAL = 20
 
 
@@ -386,5 +388,37 @@ class FuncCase(unittest.TestCase):
         self.assertEqual(self.xml_serializer.loads(self.xml_serializer.dumps(factorial(5))), factorial(5))
 
 
+class A:
+    x = 10
+
+    def my_meth(self, a):
+        return math.sin(self.x * a)
+
+    def __str__(self):
+        return 'a'
+
+    def __repr__(self):
+        return 'a'
+
+
+class B:
+    def __init__(self):
+        self._a = 10
+
+    @property
+    def a(self):
+        return self._a
+
+    @classmethod
+    def meth_cls(cls):
+        return 'a'
+
+
+class C(A, B):
+    @classmethod
+    def c(cls):
+        return cls.x
+
+
 if __name__ == "__main__":
-    unittest.main()
+       unittest.main()
