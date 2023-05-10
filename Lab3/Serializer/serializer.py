@@ -1,10 +1,10 @@
 import inspect
 import re
-from frozendict import frozendict
+import frozendict
 from types import CodeType, FunctionType
 from Lab3.Serializer.constants import (CODE_ATTRIBUTE, CODE_NAME_ATTRIBUTE, CLASS_ATTRIBUTE, FUNCTION_ATTRIBUTE,
                                        CODE_FIELD, GLOBAL_FIELD, NAME_FIELD, TYPE_FIELD, VALUE_FIELD,
-                                       CLASS, OBJECT, DICT, FUNC, CODE, BASE, DATA, MODULE,
+                                       CLASS, OBJECT, DICT, FUNC, BASE, DATA, MODULE,
                                        PRIMITIVE_TYPES, COLLECTIONS, DOC_ATTRIBUTE, FUNCTION_CREATE_ATTRIBUTE,
                                        OBJECT_TYPE_REGEX)
 
@@ -61,14 +61,14 @@ class Serializer:
                 res = self.serialize_object(obj)
                 res[TYPE_FIELD] = OBJECT
 
-                return frozendict(res)
+                return frozendict.frozendict(res)
 
             else:
                 res = self.serialize_other(obj)
 
         res[TYPE_FIELD] = type_string
 
-        return frozendict(res)
+        return frozendict.frozendict(res)
 
     def serialize_dict(self, obj: dict):
         res = {VALUE_FIELD: {}}

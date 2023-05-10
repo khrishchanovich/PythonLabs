@@ -1,4 +1,4 @@
-from frozendict import frozendict
+import frozendict
 from Lab3.Parser.json.constants import VALUE_FIELD, TYPE_FIELD
 import re
 
@@ -8,7 +8,7 @@ def serialize_json(obj):
     list_ = []
     current_flag = False
 
-    if type(obj) == frozendict or type(obj) == dict:
+    if type(obj) == frozendict.frozendict or type(obj) == dict:
         for key, value in obj.items():
             if key == VALUE_FIELD or key == TYPE_FIELD:
                 list_.append("" + serialize_json(key) + ": " + serialize_json(value) + "")
@@ -44,7 +44,7 @@ def serialize_json(obj):
 
 def deserialize_json(str_):  # string to obj
     if str_ == '{}':
-        return frozendict()
+        return frozendict.frozendict()
 
     elif str_[0] == '{':
         ans = dict()
@@ -236,4 +236,4 @@ def deserialize_json(str_):  # string to obj
 
                 i += 1
 
-        return frozendict(ans)
+        return frozendict.frozendict(ans)

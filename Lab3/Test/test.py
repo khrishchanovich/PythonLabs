@@ -2,7 +2,6 @@ import unittest
 
 import math
 
-import json
 from Lab3.Parser.json.json_parser import Json
 from Lab3.Parser.xml.xml_parser import Xml
 
@@ -22,7 +21,7 @@ class PrimitiveTypesCase(unittest.TestCase):
         self.assertEqual(self.xml_serializer.dumps(123.123), {"<class 'float'>": 123.123})
 
         self.assertEqual(self.json_serializer.dumps(123j + 0.123), '{"VALUE": "(0.123+123j)", "TYPE": "complex"}')
-        self.assertEqual(self.xml_serializer.dumps(123j + 0.123), {"<class 'complex'>": (0.123+123j)})
+        self.assertEqual(self.xml_serializer.dumps(123j + 0.123), {"<class 'complex'>": (0.123 + 123j)})
 
         self.assertEqual(self.json_serializer.dumps('False'), '{"VALUE": "False", "TYPE": "str"}')
         self.assertEqual(self.xml_serializer.dumps('False'), {"<class 'str'>": 'False'})
@@ -47,7 +46,7 @@ class PrimitiveTypesCase(unittest.TestCase):
         self.assertEqual(self.xml_serializer.loads({"<class 'float'>": 123.123}), 123.123)
 
         self.assertEqual(self.json_serializer.loads('{"VALUE": "(0.123+123j)", "TYPE": "complex"}'), 123j + 0.123)
-        self.assertEqual(self.xml_serializer.loads({"<class 'complex'>": (0.123+123j)}), 123j + 0.123)
+        self.assertEqual(self.xml_serializer.loads({"<class 'complex'>": (0.123 + 123j)}), 123j + 0.123)
 
         self.assertEqual(self.json_serializer.loads('{"VALUE": "False", "TYPE": "str"}'), 'False')
         self.assertEqual(self.xml_serializer.loads({"<class 'str'>": 'False'}), 'False')
@@ -72,7 +71,7 @@ class PrimitiveTypesCase(unittest.TestCase):
         self.assertEqual(self.xml_serializer.dumps(123.123), {"<class 'float'>": 123.123})
 
         self.assertEqual(self.json_serializer.dumps(123j + 0.123), '{"VALUE": "(0.123+123j)", "TYPE": "complex"}')
-        self.assertEqual(self.xml_serializer.dumps(123j + 0.123), {"<class 'complex'>": (0.123+123j)})
+        self.assertEqual(self.xml_serializer.dumps(123j + 0.123), {"<class 'complex'>": (0.123 + 123j)})
 
         self.assertEqual(self.json_serializer.dumps('False'), '{"VALUE": "False", "TYPE": "str"}')
         self.assertEqual(self.xml_serializer.dumps('False'), {"<class 'str'>": 'False'})
@@ -96,7 +95,7 @@ class PrimitiveTypesCase(unittest.TestCase):
         self.assertEqual(self.xml_serializer.loads({"<class 'float'>": 123.123}), 123.123)
 
         self.assertEqual(self.json_serializer.loads('{"VALUE": "(0.123+123j)", "TYPE": "complex"}'), 123j + 0.123)
-        self.assertEqual(self.xml_serializer.loads({"<class 'complex'>": (0.123+123j)}), 123j + 0.123)
+        self.assertEqual(self.xml_serializer.loads({"<class 'complex'>": (0.123 + 123j)}), 123j + 0.123)
 
         self.assertEqual(self.json_serializer.loads('{"VALUE": "False", "TYPE": "str"}'), 'False')
         self.assertEqual(self.xml_serializer.loads({"<class 'str'>": 'False'}), 'False')
@@ -265,6 +264,10 @@ class CollectionsCase(unittest.TestCase):
 
         self.assertEqual(self.xml_serialize.loads(self.xml_serialize.dumps(test_1)), test_1)
 
+        with open('Files/JSON.json', 'w') as fw:
+            self.json_serialize.dump(test_1, 'Files/JSON.json')
+
+
 
 class TestClass1:
     PROP1 = {
@@ -326,6 +329,7 @@ class ClassCase(unittest.TestCase):
         self.assertEqual(self.xml_serializer.loads(self.xml_serializer.dumps(TestClass2.test_class_2())),
                          TestClass2.test_class_2())
 
+
 GLOBAL_VAL = 20
 
 
@@ -376,8 +380,8 @@ class FuncCase(unittest.TestCase):
                          test_func_2(12, -3))
 
     def test_closures(self):
-        self.assertEqual(self.json_serializer.loads(self.json_serializer.dumps(test_func_3(2, -3, lambda x: x**2))),
-                         test_func_3(2, -3, lambda x: x**2))
+        self.assertEqual(self.json_serializer.loads(self.json_serializer.dumps(test_func_3(2, -3, lambda x: x ** 2))),
+                         test_func_3(2, -3, lambda x: x ** 2))
 
         self.assertEqual(self.xml_serializer.loads(self.xml_serializer.dumps(test_func_3(2, -3, lambda x: x ** 2))),
                          test_func_3(2, -3, lambda x: x ** 2))
@@ -421,4 +425,4 @@ class C(A, B):
 
 
 if __name__ == "__main__":
-       unittest.main()
+    unittest.main()
